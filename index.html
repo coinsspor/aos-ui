@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connect ArConnect Wallet</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+</head>
+<body>
+    <div class="container">
+        <div class="connect-box">
+            <h1>Connect to ArConnect Wallet</h1>
+            <button type="button" id="connectArConnect" class="btn arconnect-btn">Connect ArConnect</button>
+        </div>
+        <div id="wallet-info" class="wallet-info" style="display:none;">
+            <h2>Wallet Information</h2>
+            <p id="wallet-address"></p>
+            <button type="button" id="disconnectArConnect" class="btn disconnect-btn">Disconnect</button>
+        </div>
+        <div id="terminal-container" class="terminal-container" style="display:none;">
+            <iframe id="terminal" src="" frameborder="0"></iframe>
+        </div>
+        <div class="discord-logo">
+            <a href="https://discord.gg/qWgGxJKwNJ" target="_blank">
+                <img src="https://sm.ign.com/ign_tr/tech/d/discord/discord_2qn1.jpg" alt="Discord">
+            </a>
+        </div>
+    </div>
+    <script>
+        // ArConnect integration JavaScript
+        document.getElementById('connectArConnect').addEventListener('click', async () => {
+            if (window.arweaveWallet) {
+                try {
+                    // Request connection to ArConnect
+                    await window.arweaveWallet.connect(["ACCESS_ADDRESS", "SIGN_TRANSACTION"]);
+                    console.log("ArConnect connected");
+
+                    // Get the wallet address
+                    const address = await window.arweaveWallet.getActiveAddress();
+                    document.getElementById('wallet-address').textContent = `Connected Wallet Address: ${address}`;
+
+                    // Show the wallet info and terminal iframe
+                    document.getElementById('wallet-info').style.display = 'block';
+                    document.getElementById('terminal-container').style.display = 'block';
+                    document.getElementById('terminal').src = "https://sh_ao.g8way.io/";
+                } catch (error) {
+                    console.error("Failed to connect to ArConnect", error);
+                    alert("Failed to connect to ArConnect. Please try again.");
+                }
+            } else {
+                alert("ArConnect wallet not installed. Please install it first.");
+            }
+        });
+
+        // Disconnect ArConnect
+        document.getElementById('disconnectArConnect').addEventListener('click', async () => {
+            if (window.arweaveWallet) {
+                try {
+                    await window.arweaveWallet.disconnect();
+                    console.log("ArConnect disconnected");
+
+                    // Hide the wallet info and terminal iframe
+                    document.getElementById('wallet-info').style.display = 'none';
+                    document.getElementById('terminal-container').style.display = 'none';
+                    document.getElementById('wallet-address').textContent = '';
+                } catch (error) {
+                    console.error("Failed to disconnect ArConnect", error);
+                    alert("Failed to disconnect ArConnect. Please try again.");
+                }
+            }
+        });
+
+        // Check if ArConnect is installed
+        if (!window.arweaveWallet) {
+            console.warn("ArConnect is not installed.");
+        }
+    </script>
+</body>
+</html>
