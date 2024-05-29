@@ -1,6 +1,6 @@
 ![image](https://github.com/coinsspor/aos-ui/assets/38142283/8380f9c0-4d60-4ee9-8d0e-1257b40dc978)
 
-[https://ao-tools.coinsspor.com/](url)
+https://ao-tools.coinsspor.com/
 
 
 # ArConnect Wallet Integration Page
